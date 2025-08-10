@@ -2,7 +2,7 @@ import React from "react";
 
 interface DialogProps {
   content: string;
-  onNext?: () => void;
+  onNext: (() => void) | null;
   nextLabel?: string;
   style?: React.CSSProperties;
 }
@@ -13,6 +13,31 @@ const Dialog: React.FC<DialogProps> = ({
   nextLabel = "",
   style = {},
 }) => {
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onNext) {
+      onNext();
+    }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const target = e.currentTarget as HTMLButtonElement;
+    target.style.transform = "scale(0.95)";
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const target = e.currentTarget as HTMLButtonElement;
+    target.style.transform = "scale(1)";
+
+    // 只在触摸结束时触发一次
+    e.preventDefault();
+    e.stopPropagation();
+    if (onNext) {
+      onNext();
+    }
+  };
+
   return (
     <div
       style={{
@@ -30,6 +55,9 @@ const Dialog: React.FC<DialogProps> = ({
         zIndex: 3,
         fontFamily:
           "'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', Arial, sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         ...style,
       }}
     >
@@ -53,7 +81,8 @@ const Dialog: React.FC<DialogProps> = ({
       {/* 下一句按钮 */}
       {onNext && (
         <button
-          onClick={onNext}
+          onClick={handleButtonClick}
+          onTouchStart={handleTouchStart}
           style={{
             display: "flex",
             alignItems: "center",
@@ -63,7 +92,7 @@ const Dialog: React.FC<DialogProps> = ({
             color: "#fff",
             border: "none",
             borderRadius: "20px",
-            padding: "8px 16px",
+            padding: "12px 20px",
             fontSize: "0.9rem",
             fontWeight: 700,
             cursor: "pointer",
@@ -72,6 +101,13 @@ const Dialog: React.FC<DialogProps> = ({
             transition: "transform 0.1s",
             alignSelf: "flex-end",
             userSelect: "none",
+            // 移动端优化
+            WebkitTapHighlightColor: "transparent",
+            touchAction: "manipulation",
+            minHeight: "44px", // 移动端最小点击区域
+            minWidth: "44px",
+            position: "relative",
+            zIndex: 4, // 确保按钮在最上层
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "scale(1.05)";
@@ -79,6 +115,7 @@ const Dialog: React.FC<DialogProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "scale(1)";
           }}
+          onTouchEnd={handleTouchEnd}
         >
           <span style={{ fontSize: "1.1em", display: "inline-block" }}>▶️</span>
           {nextLabel || "下一句"}

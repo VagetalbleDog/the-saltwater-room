@@ -8,7 +8,7 @@ interface SimpleScratchCardProps {
   onProgressChange?: (progress: number) => void; // 进度变化回调
   showProgress?: boolean; // 是否显示进度指示器
   edgeClearDistance?: number; // 边缘清除距离
-  onNextDialog: () => void;
+  onNextDialog: (() => void) | null;
   dialogContent: string;
   allowScratch: boolean;
 }
@@ -278,7 +278,7 @@ const SimpleScratchCard: React.FC<SimpleScratchCardProps> = ({
       />
 
       {/* 进度指示器 */}
-      {showProgress && (
+      {showProgress && allowScratch && (
         <div
           style={{
             position: "absolute",
@@ -295,7 +295,7 @@ const SimpleScratchCard: React.FC<SimpleScratchCardProps> = ({
           💡 擦除进度: {Math.round(progressRef.current)}%
         </div>
       )}
-      <Dialog content={dialogContent} onNext={onNextDialog} />
+      {/* <Dialog content={dialogContent} onNext={onNextDialog} /> */}
     </div>
   );
 };
