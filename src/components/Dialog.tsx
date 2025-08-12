@@ -51,7 +51,6 @@ const Dialog: React.FC<DialogProps> = ({
         boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
         padding: "24px",
         width: "320px",
-        height: "160px",
         zIndex: 3,
         fontFamily:
           "'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', Arial, sans-serif",

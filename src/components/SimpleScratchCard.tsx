@@ -11,6 +11,8 @@ interface SimpleScratchCardProps {
   onNextDialog: (() => void) | null;
   dialogContent: string;
   allowScratch: boolean;
+  showDialog: boolean;
+  dialogButtonText: string;
 }
 
 const SimpleScratchCard: React.FC<SimpleScratchCardProps> = ({
@@ -20,7 +22,9 @@ const SimpleScratchCard: React.FC<SimpleScratchCardProps> = ({
   onProgressChange,
   onNextDialog,
   dialogContent,
+  dialogButtonText,
   showProgress = false,
+  showDialog,
   allowScratch = true,
   edgeClearDistance = 30,
 }) => {
@@ -295,7 +299,13 @@ const SimpleScratchCard: React.FC<SimpleScratchCardProps> = ({
           💡 擦除进度: {Math.round(progressRef.current)}%
         </div>
       )}
-      {/* <Dialog content={dialogContent} onNext={onNextDialog} /> */}
+      {showDialog && (
+        <Dialog
+          content={dialogContent}
+          onNext={onNextDialog}
+          nextLabel={dialogButtonText}
+        />
+      )}
     </div>
   );
 };

@@ -85,9 +85,9 @@ const Heart: React.FC<HeartProps> = ({
         0,
         heartSize * 1.2
       );
-      gradient.addColorStop(0, "#ff9ff3");
-      gradient.addColorStop(0.7, "#f368e0");
-      gradient.addColorStop(1, "#d3549a");
+      // gradient.addColorStop(0, "#ff9ff3");
+      // gradient.addColorStop(0.7, "#f368e0");
+      // gradient.addColorStop(1, "#d3549a");
 
       ctx.fillStyle = gradient;
       ctx.fill();
@@ -103,10 +103,10 @@ const Heart: React.FC<HeartProps> = ({
       // 更新缩放值 - 更平滑的变化
       scale += scaleDirection;
 
-      // 心跳反转逻辑 - 更自然的过渡
+      // 心跳反转逻辑 - 保持持续跳动
       if (scale <= 0.96 || scale >= 1.04) {
-        // 轻微减缓方向变化
-        scaleDirection *= -0.98;
+        // 直接反转方向，保持心跳持续
+        scaleDirection *= -1;
       }
 
       // 更新旋转值 - 更慢的速度
@@ -133,20 +133,55 @@ const Heart: React.FC<HeartProps> = ({
   }, [size, beatSpeed, rotationSpeed]);
 
   return (
-    <div className="heart-container">
-      <canvas
-        ref={animatedCanvasRef}
-        width={size}
-        height={size}
-        className="heart-animated"
+    <div
+      className="heart-container"
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100vh",
+        minHeight: `${size}px`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
         style={{
-          display: "block",
-          margin: "0 auto",
-          maxWidth: "100%",
-          height: "auto",
+          position: "relative",
+          zIndex: 1,
+          width: `${size}px`,
+          height: `${size}px`,
         }}
-      />
-      {children}
+      >
+        <canvas
+          ref={animatedCanvasRef}
+          width={size}
+          height={size}
+          className="heart-animated"
+          style={{
+            display: "block",
+            width: "100%",
+            height: "100%",
+          }}
+        />
+      </div>
+      {children && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+            pointerEvents: "auto",
+            textAlign: "center",
+            color: "white",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
+          }}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 };
