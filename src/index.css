@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f9fafb;
+  padding: 2rem;
+}
+
+/* 添加卡片加载时的平滑过渡 */
+img {
+  transition: opacity 0.3s ease;
+}
+
+img:not([src]) {
+  background: linear-gradient(110deg, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -65,4 +89,102 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Typewriter.css */
+.typewriter-container {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.typewriter-content {
+  display: inline-block;
+  position: relative;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 1.25rem;
+  line-height: 1.75;
+  color: #1f2937;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 打字机光标动画 */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.25rem;
+  margin-left: 4px;
+  animation: blink 0.8s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 悬停效果 */
+.typewriter-container:hover .typewriter-content {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.15),
+    0 10px 10px -5px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .typewriter-content {
+    font-size: 1.1rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .typewriter-content {
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+  }
+}
+
+/* 背景装饰元素 */
+.typewriter-container::before,
+.typewriter-container::after {
+  content: '';
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(60px);
+  opacity: 0.6;
+}
+
+.typewriter-container::before {
+  top: -40px;
+  left: -40px;
+  background: linear-gradient(135deg, #a78bfa, #c084fc);
+}
+
+.typewriter-container::after {
+  bottom: -40px;
+  right: -40px;
+  background: linear-gradient(135deg, #5eead4, #2dd4bf);
 }

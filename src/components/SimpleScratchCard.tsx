@@ -13,6 +13,7 @@ interface SimpleScratchCardProps {
   allowScratch: boolean;
   showDialog: boolean;
   dialogButtonText: string;
+  onCenterClick: Function;
 }
 
 const SimpleScratchCard: React.FC<SimpleScratchCardProps> = ({

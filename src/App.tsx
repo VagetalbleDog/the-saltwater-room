@@ -5,8 +5,11 @@ import HeartCanvas from "./components/Heart";
 import Assest from "./assets/dialog.json";
 import mp31 from "./assets/1.mp3";
 import mp32 from "./assets/2.mp3";
+import HeartTalk from "./components/HeartTalk";
 
 const guide = Assest.guide;
+const heartTalkString = Assest.heartTalkString;
+
 function App() {
   const progressRef = useRef(0);
   const [currentDialog, setCurrentDialog] = useState(0);
@@ -14,10 +17,13 @@ function App() {
   const [allowNext, setAllowNext] = useState(true);
   const [dialogButtonText, setDialogButtonText] = useState("下一句");
   const [showDialog, setShowdialog] = useState(true);
-
+  const [showHeart, setShowHeart] = useState(true);
   const handleProgressChange = (newProgress: number) => {
     progressRef.current = newProgress;
     console.log("擦除进度:", newProgress.toFixed(2) + "%");
+    if (newProgress.toFixed(0) === "100") {
+      setTimeout(() => setShowHeart(false), 10000);
+    }
   };
   const onNextDialog = () => {
     setCurrentDialog(currentDialog + 1);
@@ -32,7 +38,7 @@ function App() {
       setTimeout(() => {
         setAllowNext(true);
         audio1.pause();
-      }, 5000);
+      }, (180 + 46) * 1000);
     }
     if (guide[currentDialog] === "好了 前菜结束") {
       // 这里播放theSaltwaterRoom 循环播放
@@ -51,21 +57,26 @@ function App() {
       setShowdialog(false);
     }
   };
+  const onHeartClick = () => {
+    console.log(progressRef.current);
+  };
   return (
     <div style={{ backgroundColor: "#ffffff" }}>
       <SimpleScratchCard
+        onCenterClick={onHeartClick}
         showDialog={showDialog}
         dialogContent={guide[currentDialog]}
         dialogButtonText={dialogButtonText}
         onNextDialog={allowNext ? onNextDialog : null}
         allowScratch={allowScratch}
-        overlayColor="rgba(0, 0, 0, 0.99)"
-        brushSize={40}
+        overlayColor={showHeart ? "rgba(0, 0, 0, 0.99)" : "rgba(0, 0, 0, 0)"}
+        brushSize={30}
         onProgressChange={handleProgressChange}
         showProgress={true}
         edgeClearDistance={20}
       >
-        <HeartCanvas></HeartCanvas>
+        {showHeart && <HeartCanvas></HeartCanvas>}
+        {!showHeart && <HeartTalk speed={200} text={heartTalkString} />}
       </SimpleScratchCard>
     </div>
   );
